@@ -80,9 +80,9 @@ public:
 	{
 		if (*__v == 0)
 			return BLANK;
-		else if (*__v == 0x0000'FFFF'FFFF'FFFF)
+		else if (*__v == ntohll(0xFFFF'FFFF'FFFF'0000))
 			return BROADCAST;
-		else if ((*__v & 0x0000'0000'80FF'FFFF) == 0x0000'0000'005E'0001)
+		else if ((*__v & ntohll(0xFFFF'FF80'0000'0000)) == ntohll(0x0100'5E00'0000'0000))
 			return MULTICAST;
 		else
 			return NONE;

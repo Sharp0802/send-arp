@@ -10,4 +10,21 @@
 
 #define operator_redirect(op, type, field) operator op (const type & rhs) { return rhs . field op field ; }
 
+#define integral_swap(v, a, b) { v[a] ^= v[b]; v[b] ^= v[a]; v[a] ^= v[b]; }
+
+constexpr uint64_t ntohll(uint64_t v)
+{
+	union
+	{
+		uint8_t i8[8];
+		uint64_t i64;
+	} u;
+	u.i64 = v;
+	integral_swap(u.i8, 7, 0);
+	integral_swap(u.i8, 6, 1);
+	integral_swap(u.i8, 5, 2);
+	integral_swap(u.i8, 4, 3);
+	return u.i64;
+}
+
 #endif //SEND_ARP_FW_H
