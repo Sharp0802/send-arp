@@ -27,4 +27,6 @@ constexpr uint64_t ntohll(uint64_t v)
 	return u.i64;
 }
 
+#define htonll ntohll
+
 #endif //SEND_ARP_FW_H
