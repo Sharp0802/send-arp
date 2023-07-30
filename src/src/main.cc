@@ -67,7 +67,7 @@ bool arp_target(
 		return false;
 	}
 
-	LOG(NOTE) << "attack packet sent. watch your sniffer";
+	LOG(NOTE) << "attack packet sent to '" << static_cast<std::string>(victim_ip) << "'. watch your sniffer";
 
 	return true;
 }

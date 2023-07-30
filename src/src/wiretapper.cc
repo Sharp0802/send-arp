@@ -39,12 +39,12 @@ void wiretapper::run(const volatile bool* token)
 			if (hdr->caplen < sizeof(RAW(PACKET)))
 				break;
 			ETH eth(reinterpret_cast<const RAW(ETH)*>(data));
-			LOG(INFO) << "ETH received (" << hdr->caplen << " bytes, op:" << std::hex << eth.type.get() << std::dec << ')';
+			LOG(VERB) << "ETH received (" << hdr->caplen << " bytes, op:" << std::hex << eth.type.get() << std::dec << ')';
 			if (eth.type.get() != ETH::ARP)
 				break;
 
 			PACKET packet(_pcap, reinterpret_cast<const RAW(PACKET)*>(data));
-			LOG(INFO) << "ARP received (" << static_cast<std::string>(packet.smac.get()) << " >> " << static_cast<std::string>(packet.dmac.get()) << ')';
+			LOG(VERB) << "ARP received (" << static_cast<std::string>(packet.smac.get()) << " >> " << static_cast<std::string>(packet.dmac.get()) << ')';
 			for (const auto& handler : _handler)
 				get<1>(handler)(packet);
 			break;
