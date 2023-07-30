@@ -31,9 +31,11 @@ std::optional<IPv4> IPv4::self(const std::string_view& interface)
 	RAW(IPv4) raw{};
 	do
 	{
-		if (interface == addr->ifa_name && static_cast<u_char>(addr->ifa_addr->sa_data[2]) == 192)
+		std::memcpy(raw.v, &addr->ifa_addr->sa_data[2], 4);
+		LOG(VERB) << "local IP detected: " << addr->ifa_name << ' ' << static_cast<std::string>(IPv4(raw));
+		auto mask = static_cast<u_char>(addr->ifa_addr->sa_data[2]);
+		if (interface == addr->ifa_name && (mask <= 223))
 		{
-			std::memcpy(raw.v, &addr->ifa_addr->sa_data[2], 4);
 			init = true;
 			break;
 		}
